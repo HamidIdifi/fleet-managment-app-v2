@@ -29,21 +29,7 @@ public class Driver extends GenericEntity implements Serializable {
     private Status status;
     @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<License> licenses = new ArrayList<>();
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    })
-    @JoinTable(
-            name = "driver_travels",
-            joinColumns = @JoinColumn(name = "driver_id"),
-            inverseJoinColumns = @JoinColumn(name = "travel_id")
-    )
-    private Set<Travel> travels;
-    public void addTravel(Travel travel) {
-        if (travels == null) {
-            travels = new HashSet<>();
-        }
-        travels.add(travel);
-    }
+    @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Travel> travels = new ArrayList<>();
 
 }

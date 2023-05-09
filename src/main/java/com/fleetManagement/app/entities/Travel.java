@@ -1,5 +1,6 @@
 package com.fleetManagement.app.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,4 +27,12 @@ public class Travel extends GenericEntity implements Serializable {
     private Date dateOfEnding;
     @Enumerated(EnumType.STRING)
     private LicenseType licenseType;
+    @ManyToOne
+    @JoinColumn(name = "DRIVER_ID")
+    @JsonIgnore
+    private Driver driver;
+    @ManyToOne
+    @JoinColumn(name = "VEHICLE_ID")
+    @JsonIgnore
+    private Vehicle vehicle;
 }

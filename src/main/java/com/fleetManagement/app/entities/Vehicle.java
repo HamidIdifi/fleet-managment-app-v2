@@ -6,10 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
@@ -44,20 +41,9 @@ public class Vehicle extends GenericEntity implements Serializable {
     @OneToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "insurance_id")
     private Insurance insurance;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "vehicle_travels",
-            joinColumns = @JoinColumn(name = "vehicle_id"),
-            inverseJoinColumns = @JoinColumn(name = "travel_id")
-    )
-    private Set<Travel> travels;
+    @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Travel> travels = new ArrayList<>();
     @ElementCollection(targetClass = GenericEnum.LicenseType.class)
     @Enumerated(EnumType.STRING)
     private Set<GenericEnum.LicenseType> licenseTypes;
-    public void addTravel(Travel travel) {
-        if (travels == null) {
-            travels = new HashSet<>();
-        }
-        travels.add(travel);
-    }
 }
