@@ -47,8 +47,8 @@ public class TravelController extends GenericController<Travel, TravelDto> {
         if (!driverService.isDriverExistWithLicenseType(driverEntity.getId(), travelDto.getLicenseType())) {
             throw new BusinessException(new BusinessException(), CoreConstant.Exception.DRIVER_LICENSE_TYPE_NOT_MATCH, null);
         }
-        driverEntity.addTravel(travelEntity);
-        vehicleEntity.addTravel(travelEntity);
+        travelEntity.setDriver(driverEntity);
+        travelEntity.setVehicle(vehicleEntity);
         Travel savedTravel = createTravel(travelEntity);
         TravelDto savedTravelDto = convertToDto(savedTravel);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedTravelDto);
