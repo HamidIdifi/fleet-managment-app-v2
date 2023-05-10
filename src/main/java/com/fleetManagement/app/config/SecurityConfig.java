@@ -74,6 +74,8 @@ public class SecurityConfig {
         private List<String> jwtAuthWhiteList;
         @Value("${jwt.auth.admin}")
         private List<String> adminEndPointsList;
+        @Value("${jwt.auth.manager}")
+        private List<String> managerEndPointsList;
         @Value("${jwt.auth.user}")
         private List<String> userEndPointsList;
 
@@ -93,6 +95,7 @@ public class SecurityConfig {
                     .antMatcher("/api/**")
                     .authorizeHttpRequests((authorize) -> authorize
                             .antMatchers(adminEndPointsList.toArray(String[]::new)).hasRole(GenericEnum.RoleName.ADMIN.name())
+                            .antMatchers(managerEndPointsList.toArray(String[]::new)).hasRole(GenericEnum.RoleName.MANAGER.name())
                             .antMatchers(userEndPointsList.toArray(String[]::new)).hasRole(GenericEnum.RoleName.USER.name())
                             .antMatchers(jwtAuthWhiteList.toArray(String[]::new)).permitAll()
                             .anyRequest().authenticated()

@@ -30,7 +30,7 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
     private final MailSenderService mailSenderService;
     private final UserRoleService userRoleService;
     private final AdminRoleService adminRoleService;
-    //Todo add manager role service
+    private final ManagerRoleService managerRoleService;
     private final DevRoleService devRoleService;
     private final JwtProvider jwtProvider;
     @Value("${admin.account.username}")
@@ -39,6 +39,18 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
     private String adminPassword;
     @Value("${admin.account.name}")
     private String adminName;
+    @Value("${driver.account.username}")
+    private String driverUsername;
+    @Value("${driver.account.password}")
+    private String driverPassword;
+    @Value("${driver.account.name}")
+    private String driverName;
+    @Value("${manager.account.username}")
+    private String managerUsername;
+    @Value("${manager.account.password}")
+    private String managerPassword;
+    @Value("${manager.account.name}")
+    private String managerName;
     @Value("${dev.account.username}")
     private String devUsername;
     @Value("${dev.account.password}")
@@ -52,7 +64,8 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
     //Todo add manager
     public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, MailSenderService mailSenderService,
                            UserRoleService userRoleService, AdminRoleService adminRoleService,
-                           DevRoleService devRoleService, JwtProvider jwtProvider, GenericRepository<User> genericRepository, ModelMapper modelMapper) {
+                           DevRoleService devRoleService, JwtProvider jwtProvider, GenericRepository<User> genericRepository, ModelMapper modelMapper,
+                           ManagerRoleService managerRoleService) {
         super(genericRepository, modelMapper);
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -60,6 +73,7 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
         this.userRoleService = userRoleService;
         this.adminRoleService = adminRoleService;
         this.devRoleService = devRoleService;
+        this.managerRoleService = managerRoleService;
         this.jwtProvider = jwtProvider;
     }
 
@@ -138,9 +152,11 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
             return;
         final UserRole userRole = userRoleService.findByName(GenericEnum.RoleName.USER);
         final AdminRole adminRole = adminRoleService.findByName(GenericEnum.RoleName.ADMIN);
+        final ManagerRole managerRole = managerRoleService.findByName(GenericEnum.RoleName.MANAGER);
         admin.setPassword(passwordEncoder.encode(admin.getPassword()));
         admin.addRole(adminRole);
         admin.addRole(userRole);
+        admin.addRole(managerRole);
         admin.setEnabled(Boolean.TRUE);
         userRepository.save(admin);
     }
@@ -163,6 +179,42 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
         dev.setEnabled(Boolean.TRUE);
         userRepository.save(dev);
 
+    }
+
+    @Override
+    public void saveManager() {
+        User manager = User.
+                builder().
+                email(managerUsername).
+                password(managerPassword).
+                firstName(managerName).
+                build();
+        if (userRepository.findByEmail(manager.getEmail()).isPresent())
+            return;
+        final UserRole userRole = userRoleService.findByName(GenericEnum.RoleName.USER);
+        final ManagerRole managerRole = managerRoleService.findByName(GenericEnum.RoleName.MANAGER);
+        manager.setPassword(passwordEncoder.encode(manager.getPassword()));
+        manager.addRole(managerRole);
+        manager.addRole(userRole);
+        manager.setEnabled(Boolean.TRUE);
+        userRepository.save(manager);
+    }
+
+    @Override
+    public void saveDriver() {
+        User driver = User.
+                builder().
+                email(driverUsername).
+                password(driverPassword).
+                firstName(driverName).
+                build();
+        if (userRepository.findByEmail(driver.getEmail()).isPresent())
+            return;
+        final UserRole userRole = userRoleService.findByName(GenericEnum.RoleName.USER);
+        driver.setPassword(passwordEncoder.encode(driver.getPassword()));
+        driver.addRole(userRole);
+        driver.setEnabled(Boolean.TRUE);
+        userRepository.save(driver);
     }
 
     @Override

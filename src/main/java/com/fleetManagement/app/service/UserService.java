@@ -29,6 +29,8 @@ public interface UserService extends GenericService<User> {
     void saveAdmin();
 
     void saveDev();
+    void saveManager();
+    void saveDriver();
 
     JwtToken generateResetPasswordToken(User user);
 

@@ -49,7 +49,7 @@ public class DriverController extends GenericController<Driver, DriverDto> {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedDriverDto);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete-driver/{id}")
     public ResponseEntity<Boolean> delete(@PathVariable("id") Long id) {
         final Driver driver = driverService.findById(id);
         Date currentDate = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
@@ -59,7 +59,7 @@ public class DriverController extends GenericController<Driver, DriverDto> {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(driverService.delete(id));
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/update-driver/{id}")
     public ResponseEntity<DriverDto> update(@PathVariable("id") Long id, @RequestBody DriverPatchDto driverDto) {
         final Driver driver = driverService.findById(id);
         Date currentDate = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
