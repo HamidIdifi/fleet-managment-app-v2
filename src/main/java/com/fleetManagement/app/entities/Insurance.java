@@ -6,10 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
@@ -21,4 +18,6 @@ import java.io.Serializable;
 public class Insurance extends Documentations implements Serializable {
     @Enumerated(EnumType.STRING)
     private InsuranceCompany insuranceCompany;
+    @OneToOne
+    private Vehicle vehicle;
 }

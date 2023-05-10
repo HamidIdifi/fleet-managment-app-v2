@@ -16,5 +16,4 @@ import java.util.Date;
 public class LicenseDto extends DocumentationsDto {
     private Date dateOfLicense;
     private GenericEnum.LicenseType type;
-    private Driver driver;
 }

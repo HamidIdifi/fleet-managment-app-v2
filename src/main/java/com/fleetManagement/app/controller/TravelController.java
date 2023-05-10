@@ -6,10 +6,7 @@ import com.fleetManagement.app.entities.Driver;
 import com.fleetManagement.app.entities.Travel;
 import com.fleetManagement.app.entities.Vehicle;
 import com.fleetManagement.app.exception.BusinessException;
-import com.fleetManagement.app.service.DriverService;
-import com.fleetManagement.app.service.TravelService;
-import com.fleetManagement.app.service.UserService;
-import com.fleetManagement.app.service.VehicleService;
+import com.fleetManagement.app.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class TravelController extends GenericController<Travel, TravelDto> {
     private final UserService userService;
+    private final ConsumptionDocumentService consumptionDocumentService;
     private final TravelService travelService;
     private final DriverService driverService;
     private final VehicleService vehicleService;
