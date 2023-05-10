@@ -1,14 +1,14 @@
 package com.fleetManagement.app.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 import static com.fleetManagement.app.entities.GenericEnum.LicenseType;
 
@@ -29,10 +29,10 @@ public class Travel extends GenericEntity implements Serializable {
     private LicenseType licenseType;
     @ManyToOne
     @JoinColumn(name = "DRIVER_ID")
-    @JsonIgnore
     private Driver driver;
     @ManyToOne
     @JoinColumn(name = "VEHICLE_ID")
-    @JsonIgnore
     private Vehicle vehicle;
+    @OneToMany(mappedBy = "travel", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ConsumptionDocument> docs = new ArrayList<>();
 }

@@ -19,9 +19,9 @@ public class VehicleDto extends GenericDto{
         private Date expiryDate;
         private Date dateOfMC;//mise en circulation
         private String vehicleUsage;
-        private VehicleTax vehicleTax;
-        private TechnicalVisit technicalVisit;
-        private Insurance insurance;
-        private Set<Travel> travels;
+        private VehicleTaxDto vehicleTax;
+        private TechnicalVisitDto technicalVisit;
+        private InsuranceDto insurance;
+        private Set<TravelDto> travels;
         private Set<GenericEnum.LicenseType> licenseTypes;
 }
