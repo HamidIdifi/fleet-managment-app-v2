@@ -27,8 +27,9 @@ public class Driver extends GenericEntity implements Serializable {
     private String cin;
     @Enumerated(EnumType.STRING)
     private Status status;
-    @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<License> licenses = new ArrayList<>();
+    @OneToOne(cascade = {CascadeType.PERSIST})
+    @JoinColumn(name = "driverLicense_id")
+    private DriverLicenseDoc driverLicense;
     @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Travel> travels = new ArrayList<>();
 

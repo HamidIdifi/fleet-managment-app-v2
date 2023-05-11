@@ -13,7 +13,7 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LicenseDto extends DocumentationsDto {
+public class LicenseDto extends GenericDto {
     private Date dateOfLicense;
     private GenericEnum.LicenseType type;
 }

@@ -3,8 +3,10 @@ package com.fleetManagement.app.controller;
 import com.fleetManagement.app.dto.DriverDto;
 import com.fleetManagement.app.dto.DriverPatchDto;
 import com.fleetManagement.app.entities.Driver;
+import com.fleetManagement.app.entities.DriverLicenseDoc;
 import com.fleetManagement.app.entities.License;
 import com.fleetManagement.app.exception.ResourceDeletionNotAllowedException;
+import com.fleetManagement.app.service.DocumentationsService;
 import com.fleetManagement.app.service.DriverService;
 import com.fleetManagement.app.service.UserService;
 import lombok.AllArgsConstructor;
@@ -33,11 +35,13 @@ public class DriverController extends GenericController<Driver, DriverDto> {
     private final UserService userService;
 
     private Driver createDriver(Driver driverEntity) {
-        List<License> licenses = List.copyOf(driverEntity.getLicenses());
+        List<License> licenses = List.copyOf(driverEntity.getDriverLicense().getLicenses());
+        DriverLicenseDoc driverLicenseDoc = driverEntity.getDriverLicense();
         IntStream.range(0, licenses.size()).forEachOrdered(i -> {
             License license = licenses.get(i);
-            license.setDriver(driverEntity);
+            license.setDriverLicense(driverLicenseDoc);
         });
+        driverLicenseDoc.setDriver(driverEntity);
         return driverService.save(driverEntity);
     }
 
