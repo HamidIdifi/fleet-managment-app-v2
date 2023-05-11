@@ -33,7 +33,7 @@ public class DriverServiceImpl extends GenericServiceImpl<Driver> implements Dri
     @Override
     public List<Driver> getDriversByLicenseType(GenericEnum.LicenseType licenseType) {
 
-        return driverRepository.findByLicensesType(licenseType);
+        return driverRepository.findByDriverLicense_LicensesType(licenseType);
     }
 
     @Override

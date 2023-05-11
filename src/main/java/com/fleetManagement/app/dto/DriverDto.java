@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -20,6 +19,6 @@ public class DriverDto extends GenericDto {
     private Date dateOfBirth;
     private String cin;
     private GenericEnum.Status status;
-    private List<LicenseDto> licenses;
+    private DriverLicenseDocDto driverLicense;
     private Set<TravelDto> travels;
 }

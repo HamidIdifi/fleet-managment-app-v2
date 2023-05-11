@@ -23,6 +23,6 @@ public class License extends GenericEntity implements Serializable {
     @Column(name = "TYPE_OF_LICENSE")
     private LicenseType type;
     @ManyToOne
-    @JoinColumn(name = "DRIVER_ID")
-    private Driver driver;
+    @JoinColumn(name = "DRIVER_LICENSE_ID")
+    private DriverLicenseDoc driverLicense;
 }
